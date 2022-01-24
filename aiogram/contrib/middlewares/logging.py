@@ -17,8 +17,7 @@ class LoggingMiddleware(BaseMiddleware):
         super(LoggingMiddleware, self).__init__()
 
     def check_timeout(self, obj):
-        start = obj.conf.get('_start', None)
-        if start:
+        if start := obj.conf.get('_start', None):
             del obj.conf['_start']
             return round((time.time() - start) * 1000)
         return -1
@@ -238,8 +237,7 @@ class LoggingFilter(logging.Filter):
         :param record:
         :return:
         """
-        update = types.Update.get_current(True)
-        if update:
+        if update := types.Update.get_current(True):
             for key, value in self.make_prefix(self.prefix, self.process_update(update)):
                 setattr(record, key, value)
 

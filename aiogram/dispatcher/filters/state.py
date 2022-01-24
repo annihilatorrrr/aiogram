@@ -122,9 +122,7 @@ class StatesGroupMeta(type):
         return tuple(state.state for state in cls.states)
 
     def get_root(cls):
-        if cls._parent is None:
-            return cls
-        return cls._parent.get_root()
+        return cls if cls._parent is None else cls._parent.get_root()
 
     def __contains__(cls, item):
         if isinstance(item, str):

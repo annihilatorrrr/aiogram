@@ -62,17 +62,14 @@ class SysInfo:
         yield f'aiogram: {self.aiogram}'
         yield f'aiohttp: {self.aiohttp}'
 
-        uvloop = self.uvloop
-        if uvloop:
+        if uvloop := self.uvloop:
             yield f'uvloop: {uvloop}'
 
         yield f'JSON mode: {json.mode}'
 
-        rapidjson = self.rapidjson
-        if rapidjson:
+        if rapidjson := self.rapidjson:
             yield f'rapidjson: {rapidjson}'
-        ujson = self.ujson
-        if ujson:
+        if ujson := self.ujson:
             yield f'ujson: {ujson}'
 
     def __str__(self):

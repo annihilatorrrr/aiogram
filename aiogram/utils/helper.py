@@ -68,13 +68,10 @@ class HelperMode(Helper):
         """
         if text.isupper():
             return text
-        result = ''
-        for pos, symbol in enumerate(text):
-            if symbol.isupper() and pos > 0:
-                result += '_' + symbol
-            else:
-                result += symbol.upper()
-        return result
+        return ''.join(
+            '_' + symbol if symbol.isupper() and pos > 0 else symbol.upper()
+            for pos, symbol in enumerate(text)
+        )
 
     @classmethod
     def _snake_case(cls, text):
@@ -84,9 +81,7 @@ class HelperMode(Helper):
         :param text:
         :return:
         """
-        if text.islower():
-            return text
-        return cls._screaming_snake_case(text).lower()
+        return text if text.islower() else cls._screaming_snake_case(text).lower()
 
     @classmethod
     def _camel_case(cls, text, first_upper=False):
@@ -150,9 +145,8 @@ class Item:
     def __set_name__(self, owner, name):
         if not name.isupper():
             raise NameError('Name for helper item must be in uppercase!')
-        if not self._value:
-            if hasattr(owner, 'mode'):
-                self._value = HelperMode.apply(name, getattr(owner, 'mode'))
+        if not self._value and hasattr(owner, 'mode'):
+            self._value = HelperMode.apply(name, getattr(owner, 'mode'))
 
 
 class ListItem(Item):
@@ -198,14 +192,8 @@ class OrderedHelperMeta(type):
     def __new__(mcs, name, bases, namespace, **kwargs):
         cls = super().__new__(mcs, name, bases, namespace)
 
-        props_keys = [
-            prop_name
-            for prop_name in (
-                name
-                for name, prop in namespace.items()
-                if isinstance(prop, (Item, ListItem))
-            )
-        ]
+        props_keys = [name for name, prop in namespace.items()
+                    if isinstance(prop, (Item, ListItem))]
 
         setattr(cls, PROPS_KEYS_ATTR_NAME, props_keys)
 

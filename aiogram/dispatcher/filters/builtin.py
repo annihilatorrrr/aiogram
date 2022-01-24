@@ -204,8 +204,7 @@ class CommandStart(Command):
             if not isinstance(self.deep_link, typing.Pattern):
                 return False if payload != self.deep_link else {'deep_link': payload}
 
-            match = self.deep_link.match(payload)
-            if match:
+            if match := self.deep_link.match(payload):
                 return {'deep_link': match}
             return False
 
@@ -277,7 +276,7 @@ class Text(Filter):
                                                       ] if arg[1] is not None])
             raise ValueError(f"Arguments '{args}' cannot be used together.")
         elif check == 0:
-            raise ValueError(f"No one mode is specified!")
+            raise ValueError('No one mode is specified!')
 
         equals, contains, endswith, startswith = map(
             lambda e: [e] if isinstance(e, (str, LazyProxy)) else e,
@@ -430,9 +429,7 @@ class Regexp(Filter):
         else:
             return False
 
-        match = self.regexp.search(content)
-
-        if match:
+        if match := self.regexp.search(content):
             return {'regexp': match}
         return False
 
@@ -458,8 +455,7 @@ class RegexpCommandsFilter(BoundFilter):
             return False
 
         for command in self.regexp_commands:
-            search = command.search(message.text)
-            if search:
+            if search := command.search(message.text):
                 return {'regexp_command': search}
         return False
 
@@ -499,10 +495,7 @@ class IsSenderContact(BoundFilter):
         if not message.contact:
             return False
         is_sender_contact = message.contact.user_id == message.from_user.id
-        if self.is_sender_contact:
-            return is_sender_contact
-        else:
-            return not is_sender_contact
+        return is_sender_contact if self.is_sender_contact else not is_sender_contact
 
 
 class StateFilter(BoundFilter):
@@ -610,16 +603,11 @@ class IDFilter(Filter):
 
     async def check(self, obj: Union[Message, CallbackQuery, InlineQuery, ChatMemberUpdated]):
         if isinstance(obj, Message):
-            user_id = None
-            if obj.from_user is not None:
-                user_id = obj.from_user.id
+            user_id = obj.from_user.id if obj.from_user is not None else None
             chat_id = obj.chat.id
         elif isinstance(obj, CallbackQuery):
             user_id = obj.from_user.id
-            chat_id = None
-            if obj.message is not None:
-                # if the button was sent with message
-                chat_id = obj.message.chat.id
+            chat_id = obj.message.chat.id if obj.message is not None else None
         elif isinstance(obj, InlineQuery):
             user_id = obj.from_user.id
             chat_id = None
@@ -729,12 +717,14 @@ class ChatTypeFilter(BoundFilter):
         self.chat_type: typing.Set[str] = set(chat_type)
 
     async def check(self, obj: Union[Message, CallbackQuery, ChatMemberUpdated]):
-        if isinstance(obj, Message):
+        if (
+            isinstance(obj, Message)
+            or not isinstance(obj, CallbackQuery)
+            and isinstance(obj, ChatMemberUpdated)
+        ):
             obj = obj.chat
         elif isinstance(obj, CallbackQuery):
             obj = obj.message.chat
-        elif isinstance(obj, ChatMemberUpdated):
-            obj = obj.chat
         else:
             warnings.warn("ChatTypeFilter doesn't support %s as input", type(obj))
             return False

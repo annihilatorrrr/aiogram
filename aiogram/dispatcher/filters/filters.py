@@ -105,8 +105,7 @@ class FilterRecord:
     def resolve(self, dispatcher, event_handler, full_config):
         if not self._check_event_handler(event_handler):
             return
-        config = self.resolver(full_config)
-        if config:
+        if config := self.resolver(full_config):
             if 'dispatcher' not in config:
                 spec = inspect.getfullargspec(self.callback)
                 if 'dispatcher' in spec.args:
@@ -280,9 +279,7 @@ class OrFilter(_LogicFilter):
         for target in self.targets:
             result = await target(*args)
             if result:
-                if isinstance(result, dict):
-                    return result
-                return True
+                return result if isinstance(result, dict) else True
         return False
 
     def append(self, target):

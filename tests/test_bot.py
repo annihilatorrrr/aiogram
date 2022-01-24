@@ -513,7 +513,7 @@ async def test_get_my_commands(bot: Bot):
     async with FakeTelegram(message_data=commands):
         result = await bot.get_my_commands()
         assert isinstance(result, list)
-        assert all([isinstance(command, types.BotCommand) for command in result])
+        assert all(isinstance(command, types.BotCommand) for command in result)
 
 
 async def test_edit_message_text_by_bot(bot: Bot):

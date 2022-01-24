@@ -264,7 +264,7 @@ class MediaGroup(base.TelegramObject):
         """
         if isinstance(media, dict):
             if 'type' not in media:
-                raise ValueError(f"Invalid media!")
+                raise ValueError('Invalid media!')
 
             media_type = media['type']
             if media_type == 'photo':

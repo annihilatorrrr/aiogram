@@ -80,8 +80,7 @@ class LettersInMessageFilter(BoundFilter):
             )
 
     async def check(self, obj: Union[types.Message, types.CallbackQuery]):
-        data = obj.text or obj.data
-        if data:
+        if data := obj.text or obj.data:
             letters_in_message = len(data)
             if letters_in_message > self.letters:
                 return False

@@ -346,9 +346,9 @@ class BaseBot:
     def disable_web_page_preview(self, value):
         if value is None:
             setattr(self, '_disable_web_page_preview', None)
+        elif not isinstance(value, bool):
+            raise TypeError(f"Disable web page preview must be bool, not {type(value)}")
         else:
-            if not isinstance(value, bool):
-                raise TypeError(f"Disable web page preview must be bool, not {type(value)}")
             setattr(self, '_disable_web_page_preview', value)
 
     @disable_web_page_preview.deleter

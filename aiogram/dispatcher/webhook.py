@@ -137,9 +137,7 @@ class WebhookRequestHandler(web.View):
         update = await self.parse_update(dispatcher.bot)
 
         results = await self.process_update(update)
-        response = self.get_response(results)
-
-        if response:
+        if response := self.get_response(results):
             web_response = response.get_web_response()
         else:
             web_response = web.Response(text='ok')
@@ -238,9 +236,7 @@ class WebhookRequestHandler(web.View):
 
         :return:
         """
-        # For reverse proxy (nginx)
-        forwarded_for = self.request.headers.get('X-Forwarded-For', None)
-        if forwarded_for:
+        if forwarded_for := self.request.headers.get('X-Forwarded-For', None):
             # get the left-most ip when there is multiple ips (request got through multiple proxy/load balancers)
             forwarded_for = forwarded_for.split(",")[0]
             return forwarded_for, _check_ip(forwarded_for)
@@ -361,8 +357,7 @@ class BaseResponse:
         :return:
         """
         method_name = helper.HelperMode.apply(self.method, helper.HelperMode.snake_case)
-        method = getattr(bot, method_name, None)
-        if method:
+        if method := getattr(bot, method_name, None):
             return await method(**self.cleanup())
         return await bot.request(self.method, self.cleanup())
 
@@ -983,8 +978,7 @@ class SendMediaGroup(BaseResponse, ReplyToMixin, DisableNotificationMixin):
         self.reply_to_message_id = reply_to_message_id
 
     def prepare(self):
-        files = dict(self.media.get_files())
-        if files:
+        if files := dict(self.media.get_files()):
             raise TypeError('Allowed only file ID or URL\'s')
 
         media = prepare_arg(self.media)

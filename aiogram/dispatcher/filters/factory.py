@@ -69,8 +69,9 @@ class FiltersFactory:
         :return:
         """
         for record in self._registered:
-            filter_ = record.resolve(self._dispatcher, event_handler, full_config)
-            if filter_:
+            if filter_ := record.resolve(
+                self._dispatcher, event_handler, full_config
+            ):
                 yield filter_
 
         if full_config:

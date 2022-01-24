@@ -41,12 +41,10 @@ async def cmd_start(message: types.Message):
     # fetching urls will take some time, so notify user that everything is OK
     await types.ChatActions.typing()
 
-    content = []
-
     # Make request (without proxy)
     async with aiohttp.ClientSession() as session:
         ip = await fetch(GET_IP_URL, session)
-    content.append(text(':globe_showing_Americas:', bold('IP:'), code(ip)))
+    content = [text(':globe_showing_Americas:', bold('IP:'), code(ip))]
     # This line is formatted to '🌎 *IP:* `YOUR IP`'
 
     # Make request through bot's proxy

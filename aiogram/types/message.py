@@ -217,8 +217,7 @@ class Message(base.TelegramObject):
 
         :return:
         """
-        command = self.get_full_command()
-        if command:
+        if command := self.get_full_command():
             command = command[0]
             if pure:
                 command, _, _ = command[1:].partition("@")
@@ -230,8 +229,7 @@ class Message(base.TelegramObject):
 
         :return:
         """
-        command = self.get_full_command()
-        if command:
+        if command := self.get_full_command():
             return command[1]
 
     def parse_entities(self, as_html=True) -> str:
@@ -300,10 +298,7 @@ class Message(base.TelegramObject):
         try:
             url = self.url
         except TypeError:  # URL is not accessible
-            if as_html:
-                return md.quote_html(text)
-            return md.escape_md(text)
-
+            return md.quote_html(text) if as_html else md.escape_md(text)
         if as_html:
             return md.hlink(text, url)
         return md.link(text, url)

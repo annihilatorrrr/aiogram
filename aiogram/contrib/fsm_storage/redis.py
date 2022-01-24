@@ -58,9 +58,7 @@ class RedisStorage(BaseStorage):
 
     async def wait_closed(self):
         async with self._connection_lock:
-            if self._redis:
-                return await self._redis.wait_closed()
-            return True
+            return await self._redis.wait_closed() if self._redis else True
 
     async def redis(self) -> "aioredis.RedisConnection":
         """
@@ -302,9 +300,7 @@ class AioRedisAdapterV1(AioRedisAdapterBase):
 
     async def wait_closed(self):
         async with self._connection_lock:
-            if self._redis:
-                return await self._redis.wait_closed()
-            return True
+            return await self._redis.wait_closed() if self._redis else True
 
     async def get(self, name, **kwargs):
         return await self._redis.get(name, encoding="utf8", **kwargs)

@@ -95,10 +95,7 @@ class I18nMiddleware(BaseMiddleware):
             locale = self.ctx_locale.get()
 
         if locale not in self.locales:
-            if n == 1:
-                return singular
-            return plural
-
+            return singular if n == 1 else plural
         translator = self.locales[locale]
 
         if plural is None:

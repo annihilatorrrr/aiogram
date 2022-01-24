@@ -46,9 +46,7 @@ class User(base.TelegramObject):
 
         :return: str
         """
-        if self.username:
-            return '@' + self.username
-        return self.full_name
+        return '@' + self.username if self.username else self.full_name
 
     @property
     def locale(self) -> Optional[babel.core.Locale]:
