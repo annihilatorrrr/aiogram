@@ -12,6 +12,14 @@
     "rst_description": "Use this method to edit live location messages. A location can be edited until its *live_period* expires or editing is explicitly disabled by a call to :class:`aiogram.methods.stop_message_live_location.StopMessageLiveLocation`. On success, if the edited message is not an inline message, the edited :class:`aiogram.types.message.Message` is returned, otherwise :code:`True` is returned.",
     "annotations": [
       {
+        "type": "String",
+        "required": false,
+        "description": "Unique identifier of the business connection on behalf of which the message to be edited was sent",
+        "html_description": "<td>Unique identifier of the business connection on behalf of which the message to be edited was sent</td>",
+        "rst_description": "Unique identifier of the business connection on behalf of which the message to be edited was sent\n",
+        "name": "business_connection_id"
+      },
+      {
         "type": "Integer or String",
         "required": false,
         "description": "Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)",
@@ -50,6 +58,14 @@
         "html_description": "<td>Longitude of new location</td>",
         "rst_description": "Longitude of new location\n",
         "name": "longitude"
+      },
+      {
+        "type": "Integer",
+        "required": false,
+        "description": "New period in seconds during which the location can be updated, starting from the message send date. If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must not exceed the current live_period by more than a day, and the live location expiration date must remain within the next 90 days. If not specified, then live_period remains unchanged",
+        "html_description": "<td>New period in seconds during which the location can be updated, starting from the message send date. If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must not exceed the current <em>live_period</em> by more than a day, and the live location expiration date must remain within the next 90 days. If not specified, then <em>live_period</em> remains unchanged</td>",
+        "rst_description": "New period in seconds during which the location can be updated, starting from the message send date. If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must not exceed the current *live_period* by more than a day, and the live location expiration date must remain within the next 90 days. If not specified, then *live_period* remains unchanged\n",
+        "name": "live_period"
       },
       {
         "type": "Float",

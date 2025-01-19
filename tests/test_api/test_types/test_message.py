@@ -24,6 +24,7 @@ from aiogram.methods import (
     SendLocation,
     SendMediaGroup,
     SendMessage,
+    SendPaidMedia,
     SendPhoto,
     SendPoll,
     SendSticker,
@@ -40,7 +41,10 @@ from aiogram.types import (
     UNSET_PARSE_MODE,
     Animation,
     Audio,
+    BackgroundFillSolid,
+    BackgroundTypeFill,
     Chat,
+    ChatBackground,
     ChatBoostAdded,
     ChatShared,
     Contact,
@@ -65,12 +69,15 @@ from aiogram.types import (
     Location,
     MessageAutoDeleteTimerChanged,
     MessageEntity,
+    PaidMediaInfo,
+    PaidMediaPhoto,
     PassportData,
     PhotoSize,
     Poll,
     PollOption,
     ProximityAlertTriggered,
     ReactionTypeCustomEmoji,
+    RefundedPayment,
     SharedUser,
     Sticker,
     Story,
@@ -328,6 +335,22 @@ TEST_MESSAGE_CHANNEL_CHAT_CREATED = Message(
     chat=Chat(id=-10042, type="channel"),
     from_user=User(id=42, is_bot=False, first_name="Test"),
 )
+TEST_MESSAGE_PAID_MEDIA = Message(
+    message_id=42,
+    date=datetime.datetime.now(),
+    paid_media=PaidMediaInfo(
+        star_count=100500,
+        paid_media=[
+            PaidMediaPhoto(
+                photo=[
+                    PhotoSize(file_id="file id", file_unique_id="file id", width=42, height=42)
+                ],
+            )
+        ],
+    ),
+    chat=Chat(id=42, type="private"),
+    from_user=User(id=42, is_bot=False, first_name="Test"),
+)
 TEST_MESSAGE_PASSPORT_DATA = Message(
     message_id=42,
     date=datetime.datetime.now(),
@@ -504,7 +527,7 @@ TEST_MESSAGE_GIVEAWAY_CREATED = Message(
     date=datetime.datetime.now(),
     chat=Chat(id=42, type="private"),
     from_user=None,
-    giveaway_created=GiveawayCreated(),
+    giveaway_created=GiveawayCreated(prize_star_count=42),
 )
 TEST_MESSAGE_GIVEAWAY_WINNERS = Message(
     message_id=42,
@@ -553,6 +576,30 @@ TEST_MESSAGE_BOOST_ADDED = Message(
     from_user=User(id=42, is_bot=False, first_name="User"),
     boost_added=ChatBoostAdded(boost_count=1),
 )
+TEST_CHAT_BACKGROUND_SET = Message(
+    message_id=42,
+    date=datetime.datetime.now(),
+    chat=Chat(id=42, type="private"),
+    from_user=User(id=42, is_bot=False, first_name="User"),
+    chat_background_set=ChatBackground(
+        type=BackgroundTypeFill(
+            fill=BackgroundFillSolid(color=0x000000),
+            dark_theme_dimming=0,
+        )
+    ),
+)
+TEST_REFUND_PAYMENT = Message(
+    message_id=42,
+    date=datetime.datetime.now(),
+    chat=Chat(id=42, type="private"),
+    from_user=User(id=42, is_bot=False, first_name="User"),
+    refunded_payment=RefundedPayment(
+        total_amount=42,
+        provider_payment_charge_id="payment",
+        telegram_payment_charge_id="charge",
+        invoice_payload="payload",
+    ),
+)
 TEST_MESSAGE_UNKNOWN = Message(
     message_id=42,
     date=datetime.datetime.now(),
@@ -588,6 +635,7 @@ MESSAGES_AND_CONTENT_TYPES = [
     [TEST_MESSAGE_GROUP_CHAT_CREATED, ContentType.GROUP_CHAT_CREATED],
     [TEST_MESSAGE_SUPERGROUP_CHAT_CREATED, ContentType.SUPERGROUP_CHAT_CREATED],
     [TEST_MESSAGE_CHANNEL_CHAT_CREATED, ContentType.CHANNEL_CHAT_CREATED],
+    [TEST_MESSAGE_PAID_MEDIA, ContentType.PAID_MEDIA],
     [TEST_MESSAGE_PASSPORT_DATA, ContentType.PASSPORT_DATA],
     [TEST_MESSAGE_PROXIMITY_ALERT_TRIGGERED, ContentType.PROXIMITY_ALERT_TRIGGERED],
     [TEST_MESSAGE_POLL, ContentType.POLL],
@@ -620,6 +668,8 @@ MESSAGES_AND_CONTENT_TYPES = [
     [TEST_MESSAGE_GENERAL_FORUM_TOPIC_UNHIDDEN, ContentType.GENERAL_FORUM_TOPIC_UNHIDDEN],
     [TEST_MESSAGE_WRITE_ACCESS_ALLOWED, ContentType.WRITE_ACCESS_ALLOWED],
     [TEST_MESSAGE_BOOST_ADDED, ContentType.BOOST_ADDED],
+    [TEST_CHAT_BACKGROUND_SET, ContentType.CHAT_BACKGROUND_SET],
+    [TEST_REFUND_PAYMENT, ContentType.REFUNDED_PAYMENT],
     [TEST_MESSAGE_UNKNOWN, ContentType.UNKNOWN],
 ]
 
@@ -653,6 +703,7 @@ MESSAGES_AND_COPY_METHODS = [
     [TEST_MESSAGE_GROUP_CHAT_CREATED, None],
     [TEST_MESSAGE_SUPERGROUP_CHAT_CREATED, None],
     [TEST_MESSAGE_CHANNEL_CHAT_CREATED, None],
+    [TEST_MESSAGE_PAID_MEDIA, None],
     [TEST_MESSAGE_PASSPORT_DATA, None],
     [TEST_MESSAGE_PROXIMITY_ALERT_TRIGGERED, None],
     [TEST_MESSAGE_POLL, SendPoll],
@@ -678,6 +729,8 @@ MESSAGES_AND_COPY_METHODS = [
     [TEST_MESSAGE_GIVEAWAY, None],
     [TEST_MESSAGE_GIVEAWAY_WINNERS, None],
     [TEST_MESSAGE_BOOST_ADDED, None],
+    [TEST_CHAT_BACKGROUND_SET, None],
+    [TEST_REFUND_PAYMENT, None],
     [TEST_MESSAGE_UNKNOWN, None],
 ]
 
@@ -718,6 +771,14 @@ class TestMessage:
     )
     def test_content_type(self, message: Message, content_type: str):
         assert message.content_type == content_type
+
+    def test_as_reply_parameters(self):
+        message = Message(
+            message_id=42, chat=Chat(id=42, type="private"), date=datetime.datetime.now()
+        )
+        reply_parameters = message.as_reply_parameters()
+        assert reply_parameters.message_id == message.message_id
+        assert reply_parameters.chat_id == message.chat.id
 
     @pytest.mark.parametrize(
         "alias_for_method,kwargs,method_class",
@@ -761,6 +822,7 @@ class TestMessage:
             ["video", dict(video="video"), SendVideo],
             ["video_note", dict(video_note="video_note"), SendVideoNote],
             ["voice", dict(voice="voice"), SendVoice],
+            ["paid_media", dict(media=[], star_count=42), SendPaidMedia],
         ],
     )
     @pytest.mark.parametrize("alias_type", ["reply", "answer"])
@@ -788,6 +850,7 @@ class TestMessage:
                 SendVideo,
                 SendVideoNote,
                 SendVoice,
+                SendPaidMedia,
             ]
         ],
     ):
@@ -804,8 +867,13 @@ class TestMessage:
 
         assert api_method.chat_id == message.chat.id
         if alias_type == "reply":
-            assert api_method.reply_to_message_id == message.message_id
+            assert api_method.reply_parameters
+            assert api_method.reply_parameters.message_id == message.message_id
+            assert api_method.reply_parameters.chat_id == message.chat.id
         else:
+            assert api_method.reply_parameters is None
+
+        if hasattr(api_method, "reply_to_message_id"):
             assert api_method.reply_to_message_id is None
 
         for key, value in kwargs.items():

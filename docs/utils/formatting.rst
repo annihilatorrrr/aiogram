@@ -28,7 +28,7 @@ Is the same as the next example, but without usage markup
 .. code-block:: python
 
     await message.answer(
-        text=f"Hello, <b>{html.quote(message.from_user.full_name)}!",
+        text=f"Hello, <b>{html.quote(message.from_user.full_name)}</b>!",
         parse_mode=ParseMode.HTML
     )
 
@@ -196,4 +196,10 @@ Available elements
     :show-inheritance:
 
 .. autoclass:: aiogram.utils.formatting.CustomEmoji
+    :show-inheritance:
+
+.. autoclass:: aiogram.utils.formatting.BlockQuote
+    :show-inheritance:
+
+.. autoclass:: aiogram.utils.formatting.ExpandableBlockQuote
     :show-inheritance:

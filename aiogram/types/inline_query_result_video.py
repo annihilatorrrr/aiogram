@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, List, Literal, Optional, Union
+from typing import TYPE_CHECKING, Any, Literal, Optional, Union
 
 from ..client.default import Default
 from ..enums import InlineQueryResultType
@@ -41,8 +41,10 @@ class InlineQueryResultVideo(InlineQueryResult):
     """*Optional*. Caption of the video to be sent, 0-1024 characters after entities parsing"""
     parse_mode: Optional[Union[str, Default]] = Default("parse_mode")
     """*Optional*. Mode for parsing entities in the video caption. See `formatting options <https://core.telegram.org/bots/api#formatting-options>`_ for more details."""
-    caption_entities: Optional[List[MessageEntity]] = None
+    caption_entities: Optional[list[MessageEntity]] = None
     """*Optional*. List of special entities that appear in the caption, which can be specified instead of *parse_mode*"""
+    show_caption_above_media: Optional[Union[bool, Default]] = Default("show_caption_above_media")
+    """*Optional*. Pass :code:`True`, if the caption must be shown above the message media"""
     video_width: Optional[int] = None
     """*Optional*. Video width"""
     video_height: Optional[int] = None
@@ -79,7 +81,10 @@ class InlineQueryResultVideo(InlineQueryResult):
             title: str,
             caption: Optional[str] = None,
             parse_mode: Optional[Union[str, Default]] = Default("parse_mode"),
-            caption_entities: Optional[List[MessageEntity]] = None,
+            caption_entities: Optional[list[MessageEntity]] = None,
+            show_caption_above_media: Optional[Union[bool, Default]] = Default(
+                "show_caption_above_media"
+            ),
             video_width: Optional[int] = None,
             video_height: Optional[int] = None,
             video_duration: Optional[int] = None,
@@ -110,6 +115,7 @@ class InlineQueryResultVideo(InlineQueryResult):
                 caption=caption,
                 parse_mode=parse_mode,
                 caption_entities=caption_entities,
+                show_caption_above_media=show_caption_above_media,
                 video_width=video_width,
                 video_height=video_height,
                 video_duration=video_duration,

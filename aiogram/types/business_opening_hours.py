@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, List
+from typing import TYPE_CHECKING, Any
 
 from .base import TelegramObject
 
@@ -10,14 +10,14 @@ if TYPE_CHECKING:
 
 class BusinessOpeningHours(TelegramObject):
     """
-
+    Describes the opening hours of a business.
 
     Source: https://core.telegram.org/bots/api#businessopeninghours
     """
 
     time_zone_name: str
     """Unique name of the time zone for which the opening hours are defined"""
-    opening_hours: List[BusinessOpeningHoursInterval]
+    opening_hours: list[BusinessOpeningHoursInterval]
     """List of time intervals describing business opening hours"""
 
     if TYPE_CHECKING:
@@ -28,7 +28,7 @@ class BusinessOpeningHours(TelegramObject):
             __pydantic__self__,
             *,
             time_zone_name: str,
-            opening_hours: List[BusinessOpeningHoursInterval],
+            opening_hours: list[BusinessOpeningHoursInterval],
             **__pydantic_kwargs: Any,
         ) -> None:
             # DO NOT EDIT MANUALLY!!!

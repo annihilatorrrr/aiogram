@@ -1,7 +1,17 @@
 from typing import List, Literal, Optional, Union
 
+from .affiliate_info import AffiliateInfo
 from .animation import Animation
 from .audio import Audio
+from .background_fill import BackgroundFill
+from .background_fill_freeform_gradient import BackgroundFillFreeformGradient
+from .background_fill_gradient import BackgroundFillGradient
+from .background_fill_solid import BackgroundFillSolid
+from .background_type import BackgroundType
+from .background_type_chat_theme import BackgroundTypeChatTheme
+from .background_type_fill import BackgroundTypeFill
+from .background_type_pattern import BackgroundTypePattern
+from .background_type_wallpaper import BackgroundTypeWallpaper
 from .base import UNSET_PARSE_MODE, TelegramObject
 from .birthdate import Birthdate
 from .bot_command import BotCommand
@@ -28,6 +38,7 @@ from .callback_game import CallbackGame
 from .callback_query import CallbackQuery
 from .chat import Chat
 from .chat_administrator_rights import ChatAdministratorRights
+from .chat_background import ChatBackground
 from .chat_boost import ChatBoost
 from .chat_boost_added import ChatBoostAdded
 from .chat_boost_removed import ChatBoostRemoved
@@ -36,6 +47,7 @@ from .chat_boost_source_gift_code import ChatBoostSourceGiftCode
 from .chat_boost_source_giveaway import ChatBoostSourceGiveaway
 from .chat_boost_source_premium import ChatBoostSourcePremium
 from .chat_boost_updated import ChatBoostUpdated
+from .chat_full_info import ChatFullInfo
 from .chat_invite_link import ChatInviteLink
 from .chat_join_request import ChatJoinRequest
 from .chat_location import ChatLocation
@@ -52,6 +64,7 @@ from .chat_photo import ChatPhoto
 from .chat_shared import ChatShared
 from .chosen_inline_result import ChosenInlineResult
 from .contact import Contact
+from .copy_text_button import CopyTextButton
 from .custom import DateTime
 from .dice import Dice
 from .document import Document
@@ -71,6 +84,8 @@ from .game import Game
 from .game_high_score import GameHighScore
 from .general_forum_topic_hidden import GeneralForumTopicHidden
 from .general_forum_topic_unhidden import GeneralForumTopicUnhidden
+from .gift import Gift
+from .gifts import Gifts
 from .giveaway import Giveaway
 from .giveaway_completed import GiveawayCompleted
 from .giveaway_created import GiveawayCreated
@@ -112,6 +127,10 @@ from .input_media_document import InputMediaDocument
 from .input_media_photo import InputMediaPhoto
 from .input_media_video import InputMediaVideo
 from .input_message_content import InputMessageContent
+from .input_paid_media import InputPaidMedia
+from .input_paid_media_photo import InputPaidMediaPhoto
+from .input_paid_media_video import InputPaidMediaVideo
+from .input_poll_option import InputPollOption
 from .input_sticker import InputSticker
 from .input_text_message_content import InputTextMessageContent
 from .input_venue_message_content import InputVenueMessageContent
@@ -143,6 +162,12 @@ from .message_origin_user import MessageOriginUser
 from .message_reaction_count_updated import MessageReactionCountUpdated
 from .message_reaction_updated import MessageReactionUpdated
 from .order_info import OrderInfo
+from .paid_media import PaidMedia
+from .paid_media_info import PaidMediaInfo
+from .paid_media_photo import PaidMediaPhoto
+from .paid_media_preview import PaidMediaPreview
+from .paid_media_purchased import PaidMediaPurchased
+from .paid_media_video import PaidMediaVideo
 from .passport_data import PassportData
 from .passport_element_error import PassportElementError
 from .passport_element_error_data_field import PassportElementErrorDataField
@@ -162,26 +187,42 @@ from .poll import Poll
 from .poll_answer import PollAnswer
 from .poll_option import PollOption
 from .pre_checkout_query import PreCheckoutQuery
+from .prepared_inline_message import PreparedInlineMessage
 from .proximity_alert_triggered import ProximityAlertTriggered
 from .reaction_count import ReactionCount
 from .reaction_type import ReactionType
 from .reaction_type_custom_emoji import ReactionTypeCustomEmoji
 from .reaction_type_emoji import ReactionTypeEmoji
+from .reaction_type_paid import ReactionTypePaid
+from .refunded_payment import RefundedPayment
 from .reply_keyboard_markup import ReplyKeyboardMarkup
 from .reply_keyboard_remove import ReplyKeyboardRemove
 from .reply_parameters import ReplyParameters
 from .response_parameters import ResponseParameters
+from .revenue_withdrawal_state import RevenueWithdrawalState
+from .revenue_withdrawal_state_failed import RevenueWithdrawalStateFailed
+from .revenue_withdrawal_state_pending import RevenueWithdrawalStatePending
+from .revenue_withdrawal_state_succeeded import RevenueWithdrawalStateSucceeded
 from .sent_web_app_message import SentWebAppMessage
 from .shared_user import SharedUser
 from .shipping_address import ShippingAddress
 from .shipping_option import ShippingOption
 from .shipping_query import ShippingQuery
+from .star_transaction import StarTransaction
+from .star_transactions import StarTransactions
 from .sticker import Sticker
 from .sticker_set import StickerSet
 from .story import Story
 from .successful_payment import SuccessfulPayment
 from .switch_inline_query_chosen_chat import SwitchInlineQueryChosenChat
 from .text_quote import TextQuote
+from .transaction_partner import TransactionPartner
+from .transaction_partner_affiliate_program import TransactionPartnerAffiliateProgram
+from .transaction_partner_fragment import TransactionPartnerFragment
+from .transaction_partner_other import TransactionPartnerOther
+from .transaction_partner_telegram_ads import TransactionPartnerTelegramAds
+from .transaction_partner_telegram_api import TransactionPartnerTelegramApi
+from .transaction_partner_user import TransactionPartnerUser
 from .update import Update
 from .user import User
 from .user_chat_boosts import UserChatBoosts
@@ -202,8 +243,18 @@ from .webhook_info import WebhookInfo
 from .write_access_allowed import WriteAccessAllowed
 
 __all__ = (
+    "AffiliateInfo",
     "Animation",
     "Audio",
+    "BackgroundFill",
+    "BackgroundFillFreeformGradient",
+    "BackgroundFillGradient",
+    "BackgroundFillSolid",
+    "BackgroundType",
+    "BackgroundTypeChatTheme",
+    "BackgroundTypeFill",
+    "BackgroundTypePattern",
+    "BackgroundTypeWallpaper",
     "Birthdate",
     "BotCommand",
     "BotCommandScope",
@@ -228,6 +279,7 @@ __all__ = (
     "CallbackQuery",
     "Chat",
     "ChatAdministratorRights",
+    "ChatBackground",
     "ChatBoost",
     "ChatBoostAdded",
     "ChatBoostRemoved",
@@ -236,6 +288,7 @@ __all__ = (
     "ChatBoostSourceGiveaway",
     "ChatBoostSourcePremium",
     "ChatBoostUpdated",
+    "ChatFullInfo",
     "ChatInviteLink",
     "ChatJoinRequest",
     "ChatLocation",
@@ -253,6 +306,7 @@ __all__ = (
     "ChosenInlineResult",
     "Contact",
     "ContentType",
+    "CopyTextButton",
     "DateTime",
     "Dice",
     "Document",
@@ -273,6 +327,8 @@ __all__ = (
     "GameHighScore",
     "GeneralForumTopicHidden",
     "GeneralForumTopicUnhidden",
+    "Gift",
+    "Gifts",
     "Giveaway",
     "GiveawayCompleted",
     "GiveawayCreated",
@@ -314,6 +370,10 @@ __all__ = (
     "InputMediaPhoto",
     "InputMediaVideo",
     "InputMessageContent",
+    "InputPaidMedia",
+    "InputPaidMediaPhoto",
+    "InputPaidMediaVideo",
+    "InputPollOption",
     "InputSticker",
     "InputTextMessageContent",
     "InputVenueMessageContent",
@@ -345,6 +405,12 @@ __all__ = (
     "MessageReactionCountUpdated",
     "MessageReactionUpdated",
     "OrderInfo",
+    "PaidMedia",
+    "PaidMediaInfo",
+    "PaidMediaPhoto",
+    "PaidMediaPreview",
+    "PaidMediaPurchased",
+    "PaidMediaVideo",
     "PassportData",
     "PassportElementError",
     "PassportElementErrorDataField",
@@ -362,20 +428,29 @@ __all__ = (
     "PollAnswer",
     "PollOption",
     "PreCheckoutQuery",
+    "PreparedInlineMessage",
     "ProximityAlertTriggered",
     "ReactionCount",
     "ReactionType",
     "ReactionTypeCustomEmoji",
     "ReactionTypeEmoji",
+    "ReactionTypePaid",
+    "RefundedPayment",
     "ReplyKeyboardMarkup",
     "ReplyKeyboardRemove",
     "ReplyParameters",
     "ResponseParameters",
+    "RevenueWithdrawalState",
+    "RevenueWithdrawalStateFailed",
+    "RevenueWithdrawalStatePending",
+    "RevenueWithdrawalStateSucceeded",
     "SentWebAppMessage",
     "SharedUser",
     "ShippingAddress",
     "ShippingOption",
     "ShippingQuery",
+    "StarTransaction",
+    "StarTransactions",
     "Sticker",
     "StickerSet",
     "Story",
@@ -383,6 +458,13 @@ __all__ = (
     "SwitchInlineQueryChosenChat",
     "TelegramObject",
     "TextQuote",
+    "TransactionPartner",
+    "TransactionPartnerAffiliateProgram",
+    "TransactionPartnerFragment",
+    "TransactionPartnerOther",
+    "TransactionPartnerTelegramAds",
+    "TransactionPartnerTelegramApi",
+    "TransactionPartnerUser",
     "UNSET_PARSE_MODE",
     "URLInputFile",
     "Update",
@@ -405,6 +487,8 @@ __all__ = (
     "WriteAccessAllowed",
 )
 
+from ..client.default import Default as _Default
+
 # Load typing forward refs for every TelegramObject
 for _entity_name in __all__:
     _entity = globals()[_entity_name]
@@ -416,6 +500,7 @@ for _entity_name in __all__:
             "Optional": Optional,
             "Union": Union,
             "Literal": Literal,
+            "Default": _Default,
             **{k: v for k, v in globals().items() if k in __all__},
         }
     )

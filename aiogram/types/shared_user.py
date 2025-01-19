@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, List, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from .base import TelegramObject
 
@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 class SharedUser(TelegramObject):
     """
-    This object contains information about a user that was shared with the bot using a :class:`aiogram.types.keyboard_button_request_user.KeyboardButtonRequestUser` button.
+    This object contains information about a user that was shared with the bot using a :class:`aiogram.types.keyboard_button_request_users.KeyboardButtonRequestUsers` button.
 
     Source: https://core.telegram.org/bots/api#shareduser
     """
@@ -23,7 +23,7 @@ class SharedUser(TelegramObject):
     """*Optional*. Last name of the user, if the name was requested by the bot"""
     username: Optional[str] = None
     """*Optional*. Username of the user, if the username was requested by the bot"""
-    photo: Optional[List[PhotoSize]] = None
+    photo: Optional[list[PhotoSize]] = None
     """*Optional*. Available sizes of the chat photo, if the photo was requested by the bot"""
 
     if TYPE_CHECKING:
@@ -37,7 +37,7 @@ class SharedUser(TelegramObject):
             first_name: Optional[str] = None,
             last_name: Optional[str] = None,
             username: Optional[str] = None,
-            photo: Optional[List[PhotoSize]] = None,
+            photo: Optional[list[PhotoSize]] = None,
             **__pydantic_kwargs: Any,
         ) -> None:
             # DO NOT EDIT MANUALLY!!!

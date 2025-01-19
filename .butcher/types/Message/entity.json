@@ -13,9 +13,9 @@
     "annotations": [
       {
         "type": "Integer",
-        "description": "Unique message identifier inside this chat",
-        "html_description": "<td>Unique message identifier inside this chat</td>",
-        "rst_description": "Unique message identifier inside this chat\n",
+        "description": "Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent",
+        "html_description": "<td>Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent</td>",
+        "rst_description": "Unique message identifier inside this chat. In specific instances (e.g., message containing a video sent to a big chat), the server might automatically schedule a message instead of sending it immediately. In such cases, this field will be 0 and the relevant message will be unusable until it is actually sent\n",
         "name": "message_id",
         "required": true
       },
@@ -29,17 +29,17 @@
       },
       {
         "type": "User",
-        "description": "Sender of the message; empty for messages sent to channels. For backward compatibility, the field contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.",
-        "html_description": "<td><em>Optional</em>. Sender of the message; empty for messages sent to channels. For backward compatibility, the field contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.</td>",
-        "rst_description": "*Optional*. Sender of the message; empty for messages sent to channels. For backward compatibility, the field contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.\n",
+        "description": "Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats",
+        "html_description": "<td><em>Optional</em>. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats</td>",
+        "rst_description": "*Optional*. Sender of the message; may be empty for messages sent to channels. For backward compatibility, if the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats\n",
         "name": "from",
         "required": false
       },
       {
         "type": "Chat",
-        "description": "Sender of the message, sent on behalf of a chat. For example, the channel itself for channel posts, the supergroup itself for messages from anonymous group administrators, the linked channel for messages automatically forwarded to the discussion group. For backward compatibility, the field from contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.",
-        "html_description": "<td><em>Optional</em>. Sender of the message, sent on behalf of a chat. For example, the channel itself for channel posts, the supergroup itself for messages from anonymous group administrators, the linked channel for messages automatically forwarded to the discussion group. For backward compatibility, the field <em>from</em> contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.</td>",
-        "rst_description": "*Optional*. Sender of the message, sent on behalf of a chat. For example, the channel itself for channel posts, the supergroup itself for messages from anonymous group administrators, the linked channel for messages automatically forwarded to the discussion group. For backward compatibility, the field *from* contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.\n",
+        "description": "Sender of the message when sent on behalf of a chat. For example, the supergroup itself for messages sent by its anonymous administrators or a linked channel for messages automatically forwarded to the channel's discussion group. For backward compatibility, if the message was sent on behalf of a chat, the field from contains a fake sender user in non-channel chats.",
+        "html_description": "<td><em>Optional</em>. Sender of the message when sent on behalf of a chat. For example, the supergroup itself for messages sent by its anonymous administrators or a linked channel for messages automatically forwarded to the channel's discussion group. For backward compatibility, if the message was sent on behalf of a chat, the field <em>from</em> contains a fake sender user in non-channel chats.</td>",
+        "rst_description": "*Optional*. Sender of the message when sent on behalf of a chat. For example, the supergroup itself for messages sent by its anonymous administrators or a linked channel for messages automatically forwarded to the channel's discussion group. For backward compatibility, if the message was sent on behalf of a chat, the field *from* contains a fake sender user in non-channel chats.\n",
         "name": "sender_chat",
         "required": false
       },
@@ -212,6 +212,14 @@
         "required": false
       },
       {
+        "type": "String",
+        "description": "Unique identifier of the message effect added to the message",
+        "html_description": "<td><em>Optional</em>. Unique identifier of the message effect added to the message</td>",
+        "rst_description": "*Optional*. Unique identifier of the message effect added to the message\n",
+        "name": "effect_id",
+        "required": false
+      },
+      {
         "type": "Animation",
         "description": "Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set",
         "html_description": "<td><em>Optional</em>. Message is an animation, information about the animation. For backward compatibility, when this field is set, the <em>document</em> field will also be set</td>",
@@ -233,6 +241,14 @@
         "html_description": "<td><em>Optional</em>. Message is a general file, information about the file</td>",
         "rst_description": "*Optional*. Message is a general file, information about the file\n",
         "name": "document",
+        "required": false
+      },
+      {
+        "type": "PaidMediaInfo",
+        "description": "Message contains paid media; information about the paid media",
+        "html_description": "<td><em>Optional</em>. Message contains paid media; information about the paid media</td>",
+        "rst_description": "*Optional*. Message contains paid media; information about the paid media\n",
+        "name": "paid_media",
         "required": false
       },
       {
@@ -285,9 +301,9 @@
       },
       {
         "type": "String",
-        "description": "Caption for the animation, audio, document, photo, video or voice",
-        "html_description": "<td><em>Optional</em>. Caption for the animation, audio, document, photo, video or voice</td>",
-        "rst_description": "*Optional*. Caption for the animation, audio, document, photo, video or voice\n",
+        "description": "Caption for the animation, audio, document, paid media, photo, video or voice",
+        "html_description": "<td><em>Optional</em>. Caption for the animation, audio, document, paid media, photo, video or voice</td>",
+        "rst_description": "*Optional*. Caption for the animation, audio, document, paid media, photo, video or voice\n",
         "name": "caption",
         "required": false
       },
@@ -297,6 +313,14 @@
         "html_description": "<td><em>Optional</em>. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption</td>",
         "rst_description": "*Optional*. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption\n",
         "name": "caption_entities",
+        "required": false
+      },
+      {
+        "type": "True",
+        "description": "True, if the caption must be shown above the message media",
+        "html_description": "<td><em>Optional</em>. True, if the caption must be shown above the message media</td>",
+        "rst_description": "*Optional*. True, if the caption must be shown above the message media\n",
+        "name": "show_caption_above_media",
         "required": false
       },
       {
@@ -468,6 +492,14 @@
         "required": false
       },
       {
+        "type": "RefundedPayment",
+        "description": "Message is a service message about a refunded payment, information about the payment.",
+        "html_description": "<td><em>Optional</em>. Message is a service message about a refunded payment, information about the payment. <a href=\"#payments\">More about payments &#187;</a></td>",
+        "rst_description": "*Optional*. Message is a service message about a refunded payment, information about the payment. `More about payments » <https://core.telegram.org/bots/api#payments>`_\n",
+        "name": "refunded_payment",
+        "required": false
+      },
+      {
         "type": "UsersShared",
         "description": "Service message: users were shared with the bot",
         "html_description": "<td><em>Optional</em>. Service message: users were shared with the bot</td>",
@@ -521,6 +553,14 @@
         "html_description": "<td><em>Optional</em>. Service message: user boosted the chat</td>",
         "rst_description": "*Optional*. Service message: user boosted the chat\n",
         "name": "boost_added",
+        "required": false
+      },
+      {
+        "type": "ChatBackground",
+        "description": "Service message: chat background set",
+        "html_description": "<td><em>Optional</em>. Service message: chat background set</td>",
+        "rst_description": "*Optional*. Service message: chat background set\n",
+        "name": "chat_background_set",
         "required": false
       },
       {

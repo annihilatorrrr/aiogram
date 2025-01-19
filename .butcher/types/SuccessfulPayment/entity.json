@@ -13,9 +13,9 @@
     "annotations": [
       {
         "type": "String",
-        "description": "Three-letter ISO 4217 currency code",
-        "html_description": "<td>Three-letter ISO 4217 <a href=\"/bots/payments#supported-currencies\">currency</a> code</td>",
-        "rst_description": "Three-letter ISO 4217 `currency <https://core.telegram.org/bots/payments#supported-currencies>`_ code\n",
+        "description": "Three-letter ISO 4217 currency code, or 'XTR' for payments in Telegram Stars",
+        "html_description": "<td>Three-letter ISO 4217 <a href=\"/bots/payments#supported-currencies\">currency</a> code, or &#8220;XTR&#8221; for payments in <a href=\"https://t.me/BotNews/90\">Telegram Stars</a></td>",
+        "rst_description": "Three-letter ISO 4217 `currency <https://core.telegram.org/bots/payments#supported-currencies>`_ code, or 'XTR' for payments in `Telegram Stars <https://t.me/BotNews/90>`_\n",
         "name": "currency",
         "required": true
       },
@@ -29,11 +29,35 @@
       },
       {
         "type": "String",
-        "description": "Bot specified invoice payload",
-        "html_description": "<td>Bot specified invoice payload</td>",
-        "rst_description": "Bot specified invoice payload\n",
+        "description": "Bot-specified invoice payload",
+        "html_description": "<td>Bot-specified invoice payload</td>",
+        "rst_description": "Bot-specified invoice payload\n",
         "name": "invoice_payload",
         "required": true
+      },
+      {
+        "type": "Integer",
+        "description": "Expiration date of the subscription, in Unix time; for recurring payments only",
+        "html_description": "<td><em>Optional</em>. Expiration date of the subscription, in Unix time; for recurring payments only</td>",
+        "rst_description": "*Optional*. Expiration date of the subscription, in Unix time; for recurring payments only\n",
+        "name": "subscription_expiration_date",
+        "required": false
+      },
+      {
+        "type": "True",
+        "description": "True, if the payment is a recurring payment for a subscription",
+        "html_description": "<td><em>Optional</em>. True, if the payment is a recurring payment for a subscription</td>",
+        "rst_description": "*Optional*. True, if the payment is a recurring payment for a subscription\n",
+        "name": "is_recurring",
+        "required": false
+      },
+      {
+        "type": "True",
+        "description": "True, if the payment is the first payment for a subscription",
+        "html_description": "<td><em>Optional</em>. True, if the payment is the first payment for a subscription</td>",
+        "rst_description": "*Optional*. True, if the payment is the first payment for a subscription\n",
+        "name": "is_first_recurring",
+        "required": false
       },
       {
         "type": "String",
